@@ -14,13 +14,20 @@ os.environ["AWS_SECRET_ACCESS_KEY"] = os.environ.get("AWS_SECRET_ACCESS_KEY", ""
 # AWS looks for AWS_DEFAULT_REGION
 os.environ["AWS_DEFAULT_REGION"] = os.environ.get("AWS_REGION", "eu-north-1")
 
-print("🔄 Querying live Data Lake via Amazon Athena...")
+print(" Querying live Data Lake via Amazon Athena...")
 
-# 2. Run the SQL Query directly from Python
+# 2. Run the SQL Query against the optimized Parquet table
 query = """
     SELECT route, status, temperature_celsius, timestamp 
-    FROM raw_logs
+    FROM optimized_analytics
 """
+
+# AWS Wrangler reads the compressed, partitioned Parquet files seamlessly!
+df = wr.athena.read_sql_query(
+    sql=query,
+    database="logistics_db",
+    ctas_approach=False
+)
 
 # AWS Wrangler handles the Athena polling and S3 downloads automatically!
 df = wr.athena.read_sql_query(
