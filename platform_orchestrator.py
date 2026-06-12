@@ -61,11 +61,20 @@ try:
         # Step 2: Orchestrated Data Quality Validation
         is_valid, validation_msg = run_data_quality_checks(raw_event)
         if not is_valid:
-            print(f" [STAGE 2: QUALITY CRASH] {validation_msg} -> Quarantining record immediately.")
-            # In production, this drops into a Dead Letter Queue (DLQ) S3 folder
+            print(f" [STAGE 2: QUALITY CRASH] {validation_msg}")
+            
+            raw_event['quarantine_reason'] = validation_msg
+            raw_event['quarantine_timestamp'] = datetime.utcnow().isoformat()
+            
+            quarantine_path = f"s3://enterprise-data-lake-iyed/quarantine/{raw_event['event_id']}.json"
+            
+            import pandas as pd
+            bad_df = pd.DataFrame([raw_event])
+            wr.s3.to_json(df=bad_df, path=quarantine_path)
+            
+            print(f" [OBSERVABILITY] Corrupt payload isolated at: {quarantine_path}\n")
             time.sleep(2)
             continue
-        print(" [STAGE 2: QUALITY PASSED] Data structurally verified.")
 
         # Step 3: Predictive ML Inference Integration
         features = [[raw_event['temperature_celsius'], raw_event['container_weight_kg']]]
