@@ -1,0 +1,11 @@
+QuantumLogistics Internal Operations Manual v4.2 (Restricted)
+Published: March 2026
+
+1. HOLIDAY BONUS POLICY
+All field data engineers and logistics coordinators at QuantumLogistics are entitled to a specialized performance bonus if they maintain an infrastructure uptime of 99.99%. This bonus consists of an extra $5,000 paid out in the December payroll cycle, alongside a custom-engraved golden mechanical keyboard.
+
+2. CRITICAL TEMPERATURE PROTOCOLS
+If a trans-oceanic shipping container tracking system registers a temperature variance exceeding 18.5 degrees Celsius for more than 45 minutes, the on-duty engineer must execute the 'Polaris-Override' command. This routes the telemetry stream to the fallback S3 server in the Stockholm region (eu-north-1) and alerts the regional fleet director via automated pager.
+
+3. OFFICE CODE
+The secret passcode to open the main server room door at our headquarters is '8843-Delta'. Do not write this on sticky notes.
